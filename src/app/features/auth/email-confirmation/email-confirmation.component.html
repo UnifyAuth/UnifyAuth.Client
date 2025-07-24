@@ -1,0 +1,20 @@
+<div class="p-4 max-w-md mx-auto text-center mt-50">
+  <div
+    *ngIf="message() as msg"
+    class="w-full max-w-xl p-6 rounded-xl border shadow-md text-center transition-all duration-300"
+    [ngClass]="{
+      'border-green-500 text-green-600 bg-green-50': msg.type === 'success',
+      'border-red-500 text-red-600 bg-red-50': msg.type === 'error'
+    }"
+  >
+    <p class="text-lg font-medium">{{ msg.text }}</p>
+    <p *ngIf="msg.type == 'success'">
+      You can log in
+      <a
+        routerLink="/login"
+        class="text-[#155CA2] hover:text-[#155CA2]/80 font-medium transition-colors duration-200"
+        >here</a
+      >.
+    </p>
+  </div>
+</div>
