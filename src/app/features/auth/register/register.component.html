@@ -106,12 +106,13 @@
       <!-- Password -->
       <div>
         <input
-          type="password"
+          [type]="showPasswords ? 'text' : 'password'"
           formControlName="password"
           placeholder="Password"
           class="w-full px-4 py-3 bg-white/20 border-0 text-[#F3EFDF] placeholder-[#F3EFDF]/70 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
           required
         />
+
         <div *ngIf="getPasswordErrors().length > 0">
           <div *ngFor="let msg of getPasswordErrors()">
             <small>{{ msg }}</small>
@@ -122,7 +123,7 @@
       <!-- Confirm Password -->
       <div>
         <input
-          type="password"
+          [type]="showPasswords ? 'text' : 'password'"
           formControlName="confirmedPassword"
           placeholder="Re-enter Password"
           class="w-full px-4 py-3 bg-white/20 border-0 text-[#F3EFDF] placeholder-[#F3EFDF]/70 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
@@ -144,6 +145,16 @@
           >
         </div>
       </div>
+      <!-- Toggle Passwords Visibility -->
+      <div class="mt-2">
+        <button
+          type="button"
+          (click)="togglePasswordsVisibility()"
+          class="text-[#F3EFDF] text-sm hover:text-[#155CA2] 155CA2/80 transition-colors duration-200 cursor-pointer"
+        >
+          {{ showPasswords ? "Hide passwords" : "Show passwords" }}
+        </button>
+      </div>
       <!-- Register Button -->
       <div class="pt-6">
         <button
@@ -155,7 +166,9 @@
       </div>
     </form>
 
+    <!-- Loading Spinner -->
     <app-spinner *ngIf="loading()" />
+
     <!-- Already have account link -->
     <div class="text-center mt-6">
       <p class="text-[#F3EFDF] text-sm">

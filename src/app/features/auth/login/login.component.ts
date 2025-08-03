@@ -9,6 +9,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { EmailFormatValidator } from '../../../shared/validators/email-format.validator';
+import { LoginDto } from '../../../core/dtos/auth/login.dto';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,21 +21,31 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
 
+  loading = computed(() => isLoading()); // Computed property to track loading state for UI spinner
   LoginForm: FormGroup = this.createLoginForm();
+  showPassword = false; // Flag to toggle password visibility
 
   onSubmit() {
     if (this.LoginForm.invalid) {
       this.LoginForm.markAllAsTouched();
       return;
     }
+    const loginDto: LoginDto = this.LoginForm.getRawValue();
+    this.authService.login(loginDto).subscribe({
+      next: () => {},
+    });
     // Handle login logic here
   }
   createLoginForm(): FormGroup {
     return this.fb.group({
-      email: ['', Validators.required],
+      email: ['', Validators.required, EmailFormatValidator.emailFormat()],
       password: ['', Validators.required],
     });
   }
-  loading = computed(() => isLoading());
+
+  togglePasswordsVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 }

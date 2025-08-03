@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RegisterValidator } from '../validators/register.validator';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { EmailFormatValidator } from '../../../shared/validators/email-format.validator';
 import { isLoading } from '../../../core/state/loading-state';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
@@ -24,9 +24,10 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
-  loading = computed(() => isLoading());
-  registrationSuccess = false;
+  loading = computed(() => isLoading()); // Computed property to track loading state for UI spinner
+  registrationSuccess = false; // Flag to indicate successful registration for UI feedback
   registerForm: FormGroup = this.createRegisterForm();
+  showPasswords = false; // Flag to toggle password visibility
 
   onSubmit() {
     if (this.registerForm.invalid) {
@@ -87,5 +88,9 @@ export class RegisterComponent {
     }
 
     return messages;
+  }
+
+  togglePasswordsVisibility() {
+    this.showPasswords = !this.showPasswords;
   }
 }
