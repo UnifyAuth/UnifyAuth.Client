@@ -15,7 +15,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       switch (error.status) {
         case 0:
           errorMessage =
-            'Network error: Please check your internet connection.';
+            'Network error: Please check your internet connection. Or server may be down, please try again later.';
           break;
         case 400:
           if (error.error.message) {
@@ -37,8 +37,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             'Forbidden: You do not have permission to access this resource.';
           break;
         case 404:
-          errorMessage =
-            'Not found: The requested resource could not be found.';
+          if (error.error.message) {
+            errorMessage = error.error.message;
+          } else {
+            errorMessage =
+              'Not found: The requested resource could not be found.';
+          }
           break;
         case 500:
           errorMessage = 'Internal server error: Please try again later.';

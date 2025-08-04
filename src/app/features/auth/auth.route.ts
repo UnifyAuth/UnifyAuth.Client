@@ -1,10 +1,24 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { guestGuard } from '../../core/guards/guest.guard';
 
 export const authRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'confirm-email', component: EmailConfirmationComponent },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+    canActivate: [guestGuard],
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./register/register.component').then((m) => m.RegisterComponent),
+    canActivate: [guestGuard],
+  },
+  {
+    path: 'confirm-email',
+    loadComponent: () =>
+      import('./email-confirmation/email-confirmation.component').then(
+        (m) => m.EmailConfirmationComponent
+      ),
+  },
 ];

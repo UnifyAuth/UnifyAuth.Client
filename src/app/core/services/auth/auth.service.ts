@@ -11,7 +11,7 @@ import { map, Observable, tap } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private tokenService = inject(TokenService);
-  private apiUrl = 'https://localhost:7036/api/Auth';
+  private readonly apiUrl = 'https://localhost:7036/api/Auth';
 
   register(registerDto: RegisterDto) {
     return this.http.post(`${this.apiUrl}/register`, registerDto);
@@ -23,12 +23,13 @@ export class AuthService {
 
   login(loginDto: LoginDto): Observable<void> {
     return this.http
-      .post<{ accessToken: string }>(`${this.apiUrl}/login`, loginDto, {
+      .post<{ token: string }>(`${this.apiUrl}/login`, loginDto, {
         withCredentials: true,
       })
       .pipe(
         tap((response) => {
-          this.tokenService.setAccessToken(response.accessToken);
+          console.log('Login successful, setting access token:', response);
+          this.tokenService.setAccessToken(response.token);
         }),
         map(() => void 0)
       );

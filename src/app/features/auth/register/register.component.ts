@@ -18,7 +18,6 @@ import { RegisterDto } from '../../../core/dtos/auth/register.dto';
   selector: 'app-register',
   imports: [CommonModule, ReactiveFormsModule, SpinnerComponent, RouterModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);

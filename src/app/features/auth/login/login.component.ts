@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { isLoading } from '../../../core/state/loading-state';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -17,11 +17,11 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   selector: 'app-login',
   imports: [CommonModule, RouterModule, SpinnerComponent, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   loading = computed(() => isLoading()); // Computed property to track loading state for UI spinner
   LoginForm: FormGroup = this.createLoginForm();
@@ -34,13 +34,14 @@ export class LoginComponent {
     }
     const loginDto: LoginDto = this.LoginForm.getRawValue();
     this.authService.login(loginDto).subscribe({
-      next: () => {},
+      next: () => {
+        this.router.navigate(['/']);
+      },
     });
-    // Handle login logic here
   }
   createLoginForm(): FormGroup {
     return this.fb.group({
-      email: ['', Validators.required, EmailFormatValidator.emailFormat()],
+      email: ['', [Validators.required, EmailFormatValidator.emailFormat()]],
       password: ['', Validators.required],
     });
   }
