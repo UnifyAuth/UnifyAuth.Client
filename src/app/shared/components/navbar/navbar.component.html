@@ -60,8 +60,11 @@
   <!-- Panel header -->
   <div class="p-6 border-b border-white/20">
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-light text-[#F3EFDF] tracking-wider">
-        User Menu
+      <h2
+        class="text-xl font-light text-[#F3EFDF] tracking-wider"
+        *ngIf="fullName$ | async as fullName"
+      >
+        {{ fullName }}
       </h2>
       <button
         type="button"

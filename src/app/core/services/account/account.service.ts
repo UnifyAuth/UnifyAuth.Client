@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,8 @@ export class AccountService {
   private http = inject(HttpClient);
 
   getUserProfile() {
-    return this.http.get(`${this.apiUrl}/profile`, { withCredentials: true });
+    return this.http.get<User>(`${this.apiUrl}/profile`, {
+      withCredentials: true,
+    });
   }
 }

@@ -28,7 +28,6 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          console.log('Login successful, setting access token:', response);
           this.tokenService.setAccessToken(response.token);
         }),
         map(() => void 0)

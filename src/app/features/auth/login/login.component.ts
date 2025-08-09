@@ -23,7 +23,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  loading = computed(() => isLoading()); // Computed property to track loading state for UI spinner
+  loading = isLoading; // Computed property to track loading state for UI spinner
   LoginForm: FormGroup = this.createLoginForm();
   showPassword = false; // Flag to toggle password visibility
 

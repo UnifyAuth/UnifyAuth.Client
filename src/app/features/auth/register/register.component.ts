@@ -23,7 +23,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
-  loading = computed(() => isLoading()); // Computed property to track loading state for UI spinner
+  loading = isLoading; // Computed property to track loading state for UI spinner
   registrationSuccess = false; // Flag to indicate successful registration for UI feedback
   registerForm: FormGroup = this.createRegisterForm();
   showPasswords = false; // Flag to toggle password visibility

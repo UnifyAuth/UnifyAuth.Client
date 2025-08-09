@@ -22,14 +22,22 @@ export class TokenService {
 
   refreshAccessToken(): Observable<string> {
     return this.http
-      .post<{ accessToken: string }>(
+      .post<{ token: string }>(
         `${this.apiUrl}/refresh-token`,
         {},
         { withCredentials: true }
       )
       .pipe(
-        tap((res) => this.setAccessToken(res.accessToken)),
-        map((res) => res.accessToken)
+        tap((res) => this.setAccessToken(res.token)),
+        map((res) => res.token)
       );
+  }
+
+  hasRefreshCookie(): Observable<boolean> {
+    return this.http
+      .get<{ hasRefreshCookie: boolean }>(`${this.apiUrl}/has-refresh-cookie`, {
+        withCredentials: true,
+      })
+      .pipe(map((res) => res.hasRefreshCookie));
   }
 }

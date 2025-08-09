@@ -1,4 +1,9 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  provideAppInitializer,
+  inject,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -7,6 +12,9 @@ import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
+import { provideStore } from '@ngrx/store';
+import { authReducer } from './core/store/auth/auth.reducer';
+import { AuthInitializerService } from './core/services/auth/auth-initializer.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +29,8 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
     }),
     provideAnimations(),
+    provideStore({ auth: authReducer }),
+    // App initialization (Angular 19+ replacement for deprecated APP_INITIALIZER)
+    provideAppInitializer(() => inject(AuthInitializerService).init()),
   ],
 };

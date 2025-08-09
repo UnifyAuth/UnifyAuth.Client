@@ -30,7 +30,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           break;
         case 401:
           errorMessage = 'Unauthorized: Please log in to access this resource.';
-          router.navigate(['/login']);
           break;
         case 403:
           errorMessage =
