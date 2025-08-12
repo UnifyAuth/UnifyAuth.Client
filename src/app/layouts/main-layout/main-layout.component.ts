@@ -12,15 +12,13 @@ import { loginSuccess } from '../../core/store/auth/auth.actions';
   templateUrl: './main-layout.component.html',
 })
 export class MainLayoutComponent {
-  private tokenService = inject(TokenService);
   private accountService = inject(AccountService);
   private store = inject(Store);
 
   ngOnInit() {
     this.accountService.getUserProfile().subscribe({
       next: (user) => {
-        const fullName = `${user.firstName} ${user.lastName}`;
-        this.store.dispatch(loginSuccess({ user: { ...user, fullName } }));
+        this.store.dispatch(loginSuccess({ user: { ...user } }));
       },
     });
   }

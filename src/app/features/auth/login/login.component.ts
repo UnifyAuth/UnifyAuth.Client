@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { EmailFormatValidator } from '../../../shared/validators/email-format.validator';
 import { LoginDto } from '../../../core/dtos/auth/login.dto';
 import { AuthService } from '../../../core/services/auth/auth.service';
 
@@ -41,7 +40,7 @@ export class LoginComponent {
   }
   createLoginForm(): FormGroup {
     return this.fb.group({
-      email: ['', [Validators.required, EmailFormatValidator.emailFormat()]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }

@@ -7,3 +7,8 @@ export const loginSuccess = createAction(
 );
 
 export const logout = createAction('[Auth] Logout');
+
+export const updateProfileSuccess = createAction(
+  '[Auth] Update Profile Success',
+  props<{ user: User }>()
+);

@@ -15,6 +15,7 @@ export class AuthInitializerService {
       return Promise.resolve();
     }
 
+    this.initialized = true;
     return firstValueFrom(
       this.tokenService.hasRefreshCookie().pipe(
         switchMap((hasCookie) =>
@@ -24,9 +25,6 @@ export class AuthInitializerService {
                 .pipe(catchError(() => of(null)))
             : of(null)
         ),
-        tap(() => {
-          this.initialized = true;
-        }),
         catchError(() => of(void 0))
       )
     ).then(() => void 0);

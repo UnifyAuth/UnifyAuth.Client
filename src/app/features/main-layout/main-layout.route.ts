@@ -1,16 +1,20 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from '../../layouts/main-layout/main-layout.component';
 import { authGuard } from '../../core/guards/auth.guard';
+import { emailConfirmedGuard } from '../../core/guards/email-confirmed.guard';
 
 export const mainLayoutRoutes: Routes = [
   {
     path: '',
-    component: MainLayoutComponent,
     canActivate: [authGuard],
+    loadComponent: () =>
+      import('../../layouts/main-layout/main-layout.component').then(
+        (m) => m.MainLayoutComponent
+      ),
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
+        canActivate: [emailConfirmedGuard],
         loadComponent: () =>
           import('./dashboard/dashboard.component').then(
             (m) => m.DashboardComponent
@@ -18,8 +22,22 @@ export const mainLayoutRoutes: Routes = [
       },
       {
         path: 'profile',
-        loadComponent: () =>
-          import('./profile/profile.component').then((m) => m.ProfileComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
+          },
+          {
+            path: 'edit',
+            loadComponent: () =>
+              import('./profile/edit-profile/edit-profile.component').then(
+                (m) => m.EditProfileComponent
+              ),
+          },
+        ],
       },
     ],
   },

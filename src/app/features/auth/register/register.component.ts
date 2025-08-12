@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { RegisterValidator } from '../validators/register.validator';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { EmailFormatValidator } from '../../../shared/validators/email-format.validator';
 import { isLoading } from '../../../core/state/loading-state';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { RouterModule } from '@angular/router';
@@ -44,7 +43,7 @@ export class RegisterComponent {
   createRegisterForm(): FormGroup {
     return this.fb.group(
       {
-        email: ['', [Validators.required, EmailFormatValidator.emailFormat()]],
+        email: ['', [Validators.required, Validators.email]],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         phoneNumber: ['', Validators.required],

@@ -7,6 +7,6 @@ export interface User {
   email: string;
   phoneNumber: string;
   preferred2FAProvider: AuthenticationProviderType;
+  emailConfirmed: boolean;
   externalProvider?: string | null;
-  fullName: string;
 }

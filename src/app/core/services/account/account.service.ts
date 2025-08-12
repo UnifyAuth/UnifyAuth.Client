@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { User } from '../../models/user.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,5 +14,25 @@ export class AccountService {
     return this.http.get<User>(`${this.apiUrl}/profile`, {
       withCredentials: true,
     });
+  }
+
+  updateUserProfile(user: User) {
+    return this.http.put(`${this.apiUrl}/edit-profile`, user, {
+      withCredentials: true,
+    });
+  }
+
+  sendEmailConfirmationLink(email: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/send-email-confirmation-link`,
+      { email },
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  confirmEmail(userId: string, token: string) {
+    return this.http.post(`${this.apiUrl}/confirm-email`, { userId, token });
   }
 }

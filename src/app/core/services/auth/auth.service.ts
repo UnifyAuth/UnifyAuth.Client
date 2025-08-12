@@ -33,4 +33,13 @@ export class AuthService {
         map(() => void 0)
       );
   }
+
+  logout(): Observable<void> {
+    return this.http
+      .post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+      .pipe(
+        tap(() => this.tokenService.clearAccessToken()),
+        map(() => void 0)
+      );
+  }
 }

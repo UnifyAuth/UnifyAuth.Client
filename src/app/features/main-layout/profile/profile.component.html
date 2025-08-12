@@ -1,1 +1,100 @@
-<p>profile works!</p>
+<div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">
+    Profile Information
+  </h1>
+
+  <div
+    *ngIf="user$ | async as user"
+    class="bg-white shadow rounded-xl border border-gray-200 overflow-hidden"
+  >
+    <div
+      *ngIf="!user.emailConfirmed"
+      class="bg-red-100 border-b border-red-200 p-4 text-sm text-red-800"
+      role="alert"
+    >
+      <span class="font-bold">Warning!</span> Your email address has not been
+      confirmed.
+    </div>
+    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- First Name -->
+      <div class="space-y-1">
+        <p class="text-sm font-medium text-gray-500">First Name</p>
+        <p class="text-base font-semibold text-gray-900">
+          {{ user.firstName || "—" }}
+        </p>
+      </div>
+
+      <!-- Last Name -->
+      <div class="space-y-1">
+        <p class="text-sm font-medium text-gray-500">Last Name</p>
+        <p class="text-base font-semibold text-gray-900">
+          {{ user.lastName || "—" }}
+        </p>
+      </div>
+
+      <!-- Email -->
+      <div class="space-y-1">
+        <p class="text-sm font-medium text-gray-500">Email</p>
+        <div class="flex items-center gap-2">
+          <p class="text-base font-semibold text-gray-900 break-all">
+            {{ user.email || "—" }}
+          </p>
+          <button
+            *ngIf="!user.emailConfirmed"
+            type="button"
+            class="inline-flex items-center cursor-pointer rounded-md bg-orange-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+            (click)="onConfirmEmail(user.email)"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="space-y-1">
+        <p class="text-sm font-medium text-gray-500">Phone Number</p>
+        <p class="text-base font-semibold text-gray-900">
+          {{ user.phoneNumber || "—" }}
+        </p>
+      </div>
+
+      <!-- Preferred 2FA Provider & External Provider (side by side) -->
+      <div class="md:col-span-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-1">
+            <p class="text-sm font-medium text-gray-500">
+              Preferred 2FA Provider
+            </p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium"
+            >
+              <span
+                class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"
+              ></span>
+              {{ getProviderLabel(user.preferred2FAProvider) }}
+            </div>
+          </div>
+          <div class="space-y-1" *ngIf="user.externalProvider">
+            <p class="text-sm font-medium text-gray-500">External Provider</p>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-medium"
+            >
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+              {{ user.externalProvider }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 px-6 py-4 flex items-center justify-end gap-3">
+      <button
+        type="button"
+        class="inline-flex items-center cursor-pointer gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 transition"
+        (click)="onEditClick()"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+</div>

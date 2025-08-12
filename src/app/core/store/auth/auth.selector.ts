@@ -11,3 +11,8 @@ export const selectUser = createSelector(
 export const selectFullName = createSelector(selectUser, (user) =>
   user ? `${user.firstName} ${user.lastName}` : ''
 );
+
+export const selectEmailConfirmed = createSelector(
+  selectUser,
+  (user) => user?.emailConfirmed
+);

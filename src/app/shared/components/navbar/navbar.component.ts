@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { AccountService } from '../../../core/services/account/account.service';
 import { Store } from '@ngrx/store';
 import { selectFullName } from '../../../core/store/auth/auth.selector';
-import { TokenService } from '../../../core/services/auth/token.service';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { logout } from '../../../core/store/auth/auth.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,7 @@ import { TokenService } from '../../../core/services/auth/token.service';
 export class NavbarComponent {
   private router = inject(Router);
   private accountService = inject(AccountService);
+  private authService = inject(AuthService);
   private store = inject(Store);
 
   isUserPanelOpen = signal(false);
@@ -30,16 +32,21 @@ export class NavbarComponent {
   onProfileClick() {
     this.accountService.getUserProfile().subscribe({
       next: () => {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/profile']).then(() => this.closeUserPanel());
       },
     });
   }
 
-  onSettingsClick() {
-    this.router.navigate(['/register']);
+  onLogoutClick() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.store.dispatch(logout());
+        this.router.navigate(['/login']);
+      },
+    });
   }
 
-  onLogoutClick() {
-    console.log('Logout clicked');
+  onLogoClick() {
+    this.router.navigate(['/dashboard']).then(() => this.closeUserPanel());
   }
 }
