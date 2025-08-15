@@ -1,17 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { selectUser } from '../../../core/store/auth/auth.selector';
 import { AuthenticationProviderType } from '../../../core/enums/authentication-provider-type.enum';
 import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../../core/services/account/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { isLoading } from '../../../core/state/loading-state';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { updateProfileSuccess } from '../../../core/store/auth/auth.actions';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SpinnerComponent],
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent {
@@ -21,7 +24,23 @@ export class ProfileComponent {
   private toastr = inject(ToastrService);
 
   user$!: Observable<User | null>;
+  Loading = isLoading;
 
+  @HostListener('window:storage', ['$event'])
+  onStorageChange(event: StorageEvent) {
+    if (event.key === 'emailConfirmed' && event.newValue === 'true') {
+      localStorage.removeItem('emailConfirmed');
+      this.store
+        .select(selectUser)
+        .pipe(take(1))
+        .subscribe((user) => {
+          if (user) {
+            const updatedUser = { ...user, emailConfirmed: true };
+            this.store.dispatch(updateProfileSuccess({ user: updatedUser }));
+          }
+        });
+    }
+  }
   constructor() {
     this.user$ = this.store.select(selectUser);
   }

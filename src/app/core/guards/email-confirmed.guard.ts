@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectEmailConfirmed } from '../store/auth/auth.selector';
+import { selectEmailConfirmed, selectUser } from '../store/auth/auth.selector';
 import { map, take } from 'rxjs';
 
 export const emailConfirmedGuard: CanActivateFn = (route, state) => {

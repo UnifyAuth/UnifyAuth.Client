@@ -21,4 +21,20 @@ export const authRoutes: Routes = [
         (m) => m.EmailConfirmationComponent
       ),
   },
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+    canActivate: [guestGuard],
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
+      ),
+    canActivate: [guestGuard],
+  },
 ];

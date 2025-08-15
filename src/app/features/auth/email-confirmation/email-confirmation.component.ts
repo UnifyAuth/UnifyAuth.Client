@@ -6,6 +6,8 @@ import { AccountService } from '../../../core/services/account/account.service';
 import { Store } from '@ngrx/store';
 import { switchMap, take } from 'rxjs';
 import { updateProfileSuccess } from '../../../core/store/auth/auth.actions';
+import { isLoading } from '../../../core/state/loading-state';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 type MessageType = 'success' | 'error' | 'info';
 type MessageState = {
   text: string;
@@ -14,16 +16,15 @@ type MessageState = {
 
 @Component({
   selector: 'app-email-confirmation',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SpinnerComponent],
   templateUrl: './email-confirmation.component.html',
-  styleUrl: './email-confirmation.component.css',
 })
 export class EmailConfirmationComponent {
   private route = inject(ActivatedRoute);
   private accountService = inject(AccountService);
-  private store = inject(Store);
 
   readonly message = signal<MessageState | null>(null);
+  loading = isLoading;
 
   constructor() {
     const userId = this.route.snapshot.queryParamMap.get('userId');
@@ -33,6 +34,7 @@ export class EmailConfirmationComponent {
     if (userId && token) {
       this.accountService.confirmEmail(userId, encodedToken).subscribe({
         next: () => {
+          localStorage.setItem('emailConfirmed', 'true');
           this.message.set({
             text: 'Email confirmed successfully!',
             type: 'success',

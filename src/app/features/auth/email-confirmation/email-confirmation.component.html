@@ -1,3 +1,16 @@
+<!-- Navbar with gradient background matching login page -->
+<nav class="bg-gradient-to-r from-[#A69056] to-[#2F7D77] shadow-lg">
+  <div class="px-6 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Left side - UnifyAuth logo -->
+      <div class="flex items-center">
+        <h1 class="text-2xl font-light text-[#F3EFDF] tracking-wider">
+          UnifyAuth
+        </h1>
+      </div>
+    </div>
+  </div>
+</nav>
 <div class="p-4 max-w-md mx-auto text-center mt-50">
   <div
     *ngIf="message() as msg"
@@ -9,5 +22,6 @@
   >
     <p class="text-lg font-medium">{{ msg.text }}</p>
     <p *ngIf="msg.type == 'success'">You can close this page</p>
+    <app-spinner *ngIf="loading()" />
   </div>
 </div>

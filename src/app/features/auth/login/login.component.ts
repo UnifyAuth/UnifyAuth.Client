@@ -11,6 +11,10 @@ import {
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { LoginDto } from '../../../core/dtos/auth/login.dto';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { catchError, of, switchMap, tap } from 'rxjs';
+import { AccountService } from '../../../core/services/account/account.service';
+import { Store } from '@ngrx/store';
+import { loginSuccess } from '../../../core/store/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +24,8 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private accountService = inject(AccountService);
+  private store = inject(Store);
   private router = inject(Router);
 
   loading = isLoading; // Computed property to track loading state for UI spinner
@@ -32,11 +38,16 @@ export class LoginComponent {
       return;
     }
     const loginDto: LoginDto = this.LoginForm.getRawValue();
-    this.authService.login(loginDto).subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-    });
+    this.authService
+      .login(loginDto)
+      .pipe(
+        switchMap(() => this.accountService.getUserProfile()),
+        tap((user) => {
+          this.store.dispatch(loginSuccess({ user }));
+          this.router.navigate(['/']);
+        })
+      )
+      .subscribe();
   }
   createLoginForm(): FormGroup {
     return this.fb.group({

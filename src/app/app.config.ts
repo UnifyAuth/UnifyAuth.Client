@@ -14,7 +14,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { provideStore } from '@ngrx/store';
 import { authReducer } from './core/store/auth/auth.reducer';
-import { AuthInitializerService } from './core/services/auth/auth-initializer.service';
+import { combineInitializer } from './app.initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +31,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideStore({ auth: authReducer }),
     // App initialization (Angular 19+ replacement for deprecated APP_INITIALIZER)
-    provideAppInitializer(() => inject(AuthInitializerService).init()),
+    provideAppInitializer(combineInitializer()),
   ],
 };
