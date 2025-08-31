@@ -53,8 +53,8 @@ export class ProfileComponent {
         return 'Email';
       case AuthenticationProviderType.Sms:
         return 'SMS';
-      case AuthenticationProviderType.AuthenticatorApp:
-        return 'Authenticator App';
+      case AuthenticationProviderType.Authenticator:
+        return 'Authenticator';
       default:
         return '—';
     }

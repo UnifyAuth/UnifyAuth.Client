@@ -38,15 +38,8 @@ export class EditProfileComponent implements OnInit {
   form: FormGroup = this.fb.group({
     firstName: ['', [Validators.required, Validators.maxLength(50)]],
     lastName: ['', [Validators.required, Validators.maxLength(50)]],
-    email: [
-      { value: '', disabled: true },
-      [Validators.required, Validators.email],
-    ],
     phoneNumber: ['', [Validators.maxLength(20), Validators.required]],
-    preferred2FAProvider: ['', [Validators.required]],
   });
-
-  providerType = AuthenticationProviderType; // template reference
 
   ngOnInit(): void {
     this.user$.pipe(take(1)).subscribe((user) => {
@@ -54,9 +47,7 @@ export class EditProfileComponent implements OnInit {
       this.form.patchValue({
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.email,
         phoneNumber: user.phoneNumber,
-        preferred2FAProvider: user.preferred2FAProvider,
       });
     });
   }
@@ -74,9 +65,7 @@ export class EditProfileComponent implements OnInit {
       this.currentUser &&
       raw.firstName === this.currentUser.firstName &&
       raw.lastName === this.currentUser.lastName &&
-      raw.email === this.currentUser.email &&
-      raw.phoneNumber === this.currentUser.phoneNumber &&
-      raw.preferred2FAProvider === this.currentUser.preferred2FAProvider
+      raw.phoneNumber === this.currentUser.phoneNumber
     ) {
       this.router.navigate(['/profile']);
       return;

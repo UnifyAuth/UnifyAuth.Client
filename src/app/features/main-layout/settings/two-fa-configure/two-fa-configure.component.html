@@ -1,0 +1,221 @@
+<div class="mx-auto max-w-3xl p-8">
+  <app-two-fa-verify
+    *ngIf="isVerifying$ | async"
+    (codeVerified)="onCodeVerified($event)"
+  >
+  </app-two-fa-verify>
+  <div *ngIf="!(isVerifying$ | async) && (user$ | async) as user">
+    <h2 class="text-2xl sm:text-3xl font-bold px-2 text-gray-800 mb-8">
+      2-Step Verification
+    </h2>
+    <app-spinner *ngIf="Loading()"></app-spinner>
+    <div class="space-y-4">
+      <!-- Authenticator App Option -->
+      <div
+        (click)="selectMethod('authenticator')"
+        [ngClass]="{
+          'ring-2 ring-blue-500': selectedMethod === 'authenticator',
+          'hover:bg-gray-200': selectedMethod !== 'authenticator'
+        }"
+        class="flex items-center p-4 rounded-lg cursor-pointer transition-all duration-200 border border-gray-700"
+      >
+        <div class="mr-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8 text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg text-black">Authenticator App</h3>
+          <p class="text-sm text-black">
+            Use an app like Google Authenticator or Microsoft Authenticator.
+          </p>
+        </div>
+        <div class="ml-auto" *ngIf="selectedMethod === 'authenticator'">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-black"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Email Option -->
+      <div
+        (click)="selectMethod('email')"
+        [ngClass]="{
+          'ring-2 ring-blue-500': selectedMethod === 'email',
+          'hover:bg-gray-200 ': selectedMethod !== 'email'
+        }"
+        class="flex items-center p-4 rounded-lg cursor-pointer transition-all duration-200 border border-gray-200 dark:border-gray-700"
+      >
+        <div class="mr-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8 text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg text-black">
+            Verification via Email
+          </h3>
+          <p class="text-sm text-black">
+            Receive the verification code at your email address.
+          </p>
+        </div>
+        <div class="ml-auto" *ngIf="selectedMethod === 'email'">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-black"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Phone Number Option -->
+      <div
+        (click)="selectMethod('phone')"
+        [ngClass]="{
+          'ring-2 ring-blue-500': selectedMethod === 'phone',
+          'hover:bg-gray-200': selectedMethod !== 'phone'
+        }"
+        class="flex items-center p-4 rounded-lg cursor-pointer transition-all duration-200 border border-gray-200 dark:border-gray-700"
+      >
+        <div class="mr-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8 text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg text-black">
+            Verification via Phone Number (SMS)
+          </h3>
+          <p class="text-sm text-black">
+            Receive the code via SMS to your phone.
+          </p>
+        </div>
+        <div class="ml-auto" *ngIf="selectedMethod === 'phone'">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-black"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+      <!-- Disable 2-Step Verification -->
+      <div
+        *ngIf="getProviderLabel(user.preferred2FAProvider) !== 'None'"
+        (click)="selectMethod('none')"
+        [ngClass]="{
+          'ring-2 ring-red-600': selectedMethod === 'none',
+          'hover:ring-2 ring-red-700': selectedMethod !== 'none'
+        }"
+        class="flex items-center p-4 rounded-lg cursor-pointer transition-all duration-200 border-2 border-red-600 bg-red-200"
+      >
+        <div class="mr-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8 text-red-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="3"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+            />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg text-red-700">
+            Disable 2-Step Verification
+          </h3>
+        </div>
+        <div class="ml-auto" *ngIf="selectedMethod === 'none'">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-red-700"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-end">
+      <button
+        (click)="onCancel()"
+        class="px-8 py-2 mr-4 text-white font-semibold rounded-lg transition-colors cursor-pointer duration-200 bg-gray-900 hover:bg-gray-700"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="saveSelection()"
+        [disabled]="!selectedMethod"
+        class="px-6 py-2 text-white font-semibold rounded-lg transition-colors cursor-pointer duration-200 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+</div>

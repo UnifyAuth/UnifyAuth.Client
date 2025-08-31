@@ -1,0 +1,65 @@
+<div class="flex flex-col items-center justify-center p-4">
+  <h2 class="text-2xl font-bold mb-4">İki Faktörlü Kimlik Doğrulama</h2>
+  <p class="text-gray-600 mb-6">
+    Doğrulama uygulamanızdaki 6 haneli kodu girin.
+  </p>
+  <form
+    [formGroup]="verifyForm"
+    class="flex items-center justify-center space-x-2"
+  >
+    <input
+      #digitInput
+      formControlName="digit1"
+      type="text"
+      maxlength="1"
+      class="w-12 h-12 text-center text-2xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      (keyup)="onKeyUp($event, 0)"
+    />
+    <input
+      #digitInput
+      formControlName="digit2"
+      type="text"
+      maxlength="1"
+      class="w-12 h-12 text-center text-2xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      (keyup)="onKeyUp($event, 1)"
+    />
+    <input
+      #digitInput
+      formControlName="digit3"
+      type="text"
+      maxlength="1"
+      class="w-12 h-12 text-center text-2xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      (keyup)="onKeyUp($event, 2)"
+    />
+    <input
+      #digitInput
+      formControlName="digit4"
+      type="text"
+      maxlength="1"
+      class="w-12 h-12 text-center text-2xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      (keyup)="onKeyUp($event, 3)"
+    />
+    <input
+      #digitInput
+      formControlName="digit5"
+      type="text"
+      maxlength="1"
+      class="w-12 h-12 text-center text-2xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      (keyup)="onKeyUp($event, 4)"
+    />
+    <input
+      #digitInput
+      formControlName="digit6"
+      type="text"
+      maxlength="1"
+      class="w-12 h-12 text-center text-2xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      (keyup)="onKeyUp($event, 5)"
+    />
+  </form>
+  <button
+    class="mt-4 bg-red-500 text-white cursor-pointer py-2 px-4 rounded-md"
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
+</div>

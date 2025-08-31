@@ -49,4 +49,8 @@ export class NavbarComponent {
   onLogoClick() {
     this.router.navigate(['/dashboard']).then(() => this.closeUserPanel());
   }
+
+  onSettingsClick() {
+    this.router.navigate(['/settings']).then(() => this.closeUserPanel());
+  }
 }

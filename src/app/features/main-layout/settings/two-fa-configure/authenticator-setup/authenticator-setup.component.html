@@ -1,0 +1,49 @@
+<div class="container mx-auto mt-8 max-w-lg rounded-lg bg-white p-6 shadow-md">
+  <div *ngIf="!(isVerifying$ | async)">
+    <h2 class="mb-6 text-center text-xl font-bold">
+      Scan QR Code in your Authenticator app
+    </h2>
+
+    <div class="mb-4">
+      <div class="mt-4 flex justify-center">
+        <img [src]="qrCodeUrl" alt="QR Kodu" />
+      </div>
+    </div>
+
+    <div class="mb-6 text-center">
+      <p class="text-gray-700 font-bold text-xl">Or</p>
+      <div *ngIf="!isCopied; else copiedTemplate">
+        <p class="text-gray-700 font-bold">
+          You can copy the key from
+          <a
+            (click)="copySharedKey()"
+            class="cursor-pointer text-blue-600 hover:underline"
+            >here</a
+          >
+        </p>
+      </div>
+      <ng-template #copiedTemplate>
+        <p class="text-green-600 font-bold">Copied!</p>
+      </ng-template>
+    </div>
+
+    <div class="flex justify-end">
+      <button
+        (click)="onCancel()"
+        class="mr-2 rounded-md bg-gray-300 px-4 py-2 cursor-pointer text-gray-800 hover:bg-gray-400"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="onComplete()"
+        class="rounded-md bg-blue-600 px-4 py-2 cursor-pointer text-white hover:bg-blue-700"
+      >
+        Completed
+      </button>
+    </div>
+  </div>
+  <app-two-fa-verify
+    *ngIf="isVerifying$ | async"
+    (codeVerified)="onCodeVerified($event)"
+  ></app-two-fa-verify>
+</div>
