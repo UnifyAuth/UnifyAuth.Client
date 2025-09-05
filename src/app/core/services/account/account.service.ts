@@ -37,7 +37,7 @@ export class AccountService {
     return this.http.post(`${this.apiUrl}/confirm-email`, { userId, token });
   }
 
-  changeEmailConfirmationLink(email: string): Observable<void> {
+  sendChangeEmailLink(email: string): Observable<void> {
     return this.http.post<void>(
       `${this.apiUrl}/send-change-email-link`,
       { email },

@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { emailConfirmedGuard } from '../../core/guards/email-confirmed.guard';
 import { authenticatorSetupGuard } from '../../core/guards/authenticator-setup.guard';
-import { emailChangeGuard } from '../../core/guards/email-change.guard';
 
 export const mainLayoutRoutes: Routes = [
   {
@@ -34,6 +33,7 @@ export const mainLayoutRoutes: Routes = [
           },
           {
             path: 'edit',
+            canActivate: [emailConfirmedGuard],
             loadComponent: () =>
               import('./profile/edit-profile/edit-profile.component').then(
                 (m) => m.EditProfileComponent
@@ -43,6 +43,7 @@ export const mainLayoutRoutes: Routes = [
       },
       {
         path: 'settings',
+        canActivate: [emailConfirmedGuard],
         children: [
           {
             path: '',
@@ -83,7 +84,6 @@ export const mainLayoutRoutes: Routes = [
               },
               {
                 path: 'change-email-confirmation',
-                canActivate: [emailChangeGuard],
                 loadComponent: () =>
                   import(
                     './settings/change-email/change-email-confirmation/change-email-confirmation.component'

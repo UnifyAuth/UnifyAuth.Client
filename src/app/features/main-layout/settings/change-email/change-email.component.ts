@@ -13,7 +13,6 @@ import { AccountService } from '../../../../core/services/account/account.servic
 import { isLoading } from '../../../../core/state/loading-state';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { Router } from '@angular/router';
-import { startEmailChange } from '../../../../core/store/account/account.action';
 
 @Component({
   selector: 'app-change-email',
@@ -49,9 +48,8 @@ export class ChangeEmailComponent {
         }
       });
       this.accountService
-        .changeEmailConfirmationLink(this.changeEmailForm.value.email)
+        .sendChangeEmailLink(this.changeEmailForm.value.email)
         .subscribe(() => {
-          this.store.dispatch(startEmailChange()); // Dispatch action to indicate email change process has started for component guard
           const newEmail = this.changeEmailForm.value.email;
           localStorage.setItem('newEmail', newEmail); // Save to localStorage for using in confirmation component
           this.toastr.success(

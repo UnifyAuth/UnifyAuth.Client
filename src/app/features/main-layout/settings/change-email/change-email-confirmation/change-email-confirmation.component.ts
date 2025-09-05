@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from '../../../../../core/store/auth/auth.actions';
-import { emailChangeSuccess } from '../../../../../core/store/account/account.action';
 type MessageType = 'success' | 'error' | 'info';
 type MessageState = {
   text: string;
@@ -47,7 +46,6 @@ export class ChangeEmailConfirmationComponent {
             type: 'success',
           });
           this.store.dispatch(getCurrentUser()); // Refresh user data in the store
-          this.store.dispatch(emailChangeSuccess()); // Update state to reflect email change success
           localStorage.removeItem('newEmail'); // Clean up
           setTimeout(() => this.router.navigate(['/settings']), 5000);
         },
