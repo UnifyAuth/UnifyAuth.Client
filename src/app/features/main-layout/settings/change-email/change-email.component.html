@@ -1,0 +1,60 @@
+<div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-3xl font-bold tracking-tight px-2 text-gray-900 mb-8">
+    Change Email
+  </h1>
+  <div
+    class="bg-white shadow rounded-xl border border-gray-200 overflow-hidden"
+  >
+    <form [formGroup]="changeEmailForm" (ngSubmit)="save()">
+      <div class="p-6">
+        <div>
+          <label
+            for="email"
+            class="block mb-2 text-sm font-medium text-gray-900"
+            >New Email Address</label
+          >
+          <input
+            type="email"
+            name="email"
+            id="email"
+            formControlName="email"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+            required=""
+          />
+          <div
+            *ngIf="
+              changeEmailForm.get('email')?.invalid &&
+              (changeEmailForm.get('email')?.dirty ||
+                changeEmailForm.get('email')?.touched)
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            <div *ngIf="changeEmailForm.get('email')?.errors?.['required']">
+              Email is required.
+            </div>
+            <div *ngIf="changeEmailForm.get('email')?.errors?.['email']">
+              Please enter a valid email address.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-6 py-4 flex items-center justify-end gap-3">
+        <button
+          type="button"
+          (click)="cancel()"
+          class="inline-flex items-center cursor-pointer gap-2 rounded-lg bg-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 shadow hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 transition"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="changeEmailForm.invalid"
+          class="inline-flex items-center cursor-pointer gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 transition disabled:cursor-not-allowed"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+    <app-spinner *ngIf="loading()" />
+  </div>
+</div>

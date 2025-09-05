@@ -47,12 +47,6 @@ export class SettingsComponent {
   }
 
   onChangeEmail(): void {
-    console.log('Change Email clicked');
-    // Implement your logic here
-  }
-
-  onChangePhoneNumber(): void {
-    console.log('Change Phone Number clicked');
-    // Implement your logic here
+    this.router.navigate(['/settings/change-email']);
   }
 }

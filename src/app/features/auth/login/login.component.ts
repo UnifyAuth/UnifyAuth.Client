@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { isLoading } from '../../../core/state/loading-state';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import {
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { LoginDto } from '../../../core/dtos/auth/login.dto';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { catchError, of, switchMap, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { AccountService } from '../../../core/services/account/account.service';
 import { Store } from '@ngrx/store';
 import { loginSuccess } from '../../../core/store/auth/auth.actions';

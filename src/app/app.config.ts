@@ -17,6 +17,7 @@ import { combineInitializer } from './app.initializer';
 import { twoFaReducer } from './core/store/TwoFA/two-fa.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './core/store/auth/auth.effects';
+import { accountReducer } from './core/store/account/account.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,7 +32,11 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
     }),
     provideAnimations(),
-    provideStore({ auth: authReducer, twoFa: twoFaReducer }),
+    provideStore({
+      auth: authReducer,
+      twoFa: twoFaReducer,
+      account: accountReducer,
+    }),
     provideEffects([AuthEffects]),
     // App initialization (Angular 19+ replacement for deprecated APP_INITIALIZER)
     provideAppInitializer(combineInitializer()),

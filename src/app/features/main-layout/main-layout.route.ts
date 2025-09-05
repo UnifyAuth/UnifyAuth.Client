@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { emailConfirmedGuard } from '../../core/guards/email-confirmed.guard';
 import { authenticatorSetupGuard } from '../../core/guards/authenticator-setup.guard';
+import { emailChangeGuard } from '../../core/guards/email-change.guard';
 
 export const mainLayoutRoutes: Routes = [
   {
@@ -67,6 +68,26 @@ export const mainLayoutRoutes: Routes = [
                   import(
                     './settings/two-fa-configure/authenticator-setup/authenticator-setup.component'
                   ).then((m) => m.AuthenticatorSetupComponent),
+              },
+            ],
+          },
+          {
+            path: 'change-email',
+            children: [
+              {
+                path: '',
+                loadComponent: () =>
+                  import('./settings/change-email/change-email.component').then(
+                    (m) => m.ChangeEmailComponent
+                  ),
+              },
+              {
+                path: 'change-email-confirmation',
+                canActivate: [emailChangeGuard],
+                loadComponent: () =>
+                  import(
+                    './settings/change-email/change-email-confirmation/change-email-confirmation.component'
+                  ).then((m) => m.ChangeEmailConfirmationComponent),
               },
             ],
           },
