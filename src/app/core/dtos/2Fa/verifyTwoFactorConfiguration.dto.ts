@@ -1,6 +1,6 @@
 import { AuthenticationProviderType } from '../../enums/authentication-provider-type.enum';
 
-export interface VerifyTwoFaDto {
+export interface VerifyTwoFactorConfigurationDto {
   provider: AuthenticationProviderType;
   key: string;
 }

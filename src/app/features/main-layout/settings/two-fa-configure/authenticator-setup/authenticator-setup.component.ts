@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { TwoFaConfigurationDto } from '../../../../../core/dtos/2Fa/two-fa-configuration.dto';
+import { TwoFactorConfigurationDto } from '../../../../../core/dtos/2Fa/twoFactorConfiguration.dto';
 import { QrCodeServiceService } from '../../../../../core/services/QrCodeService/qr-code-service.service';
 import { Store } from '@ngrx/store';
 import {
@@ -13,7 +13,7 @@ import {
 import { TwoFaVerifyComponent } from '../../../../../shared/components/TwoFaVerify/two-fa-verify/two-fa-verify.component';
 import { selectIsVerifying } from '../../../../../core/store/TwoFA/two-fa.selector';
 import { TwoFaService } from '../../../../../core/services/2FaService/two-fa.service';
-import { VerifyTwoFaDto } from '../../../../../core/dtos/2Fa/verify-two-fa.dto';
+import { VerifyTwoFactorConfigurationDto } from '../../../../../core/dtos/2Fa/verifyTwoFactorConfiguration.dto';
 import { ToastrService } from 'ngx-toastr';
 import { getCurrentUser } from '../../../../../core/store/auth/auth.actions';
 
@@ -28,7 +28,7 @@ export class AuthenticatorSetupComponent implements OnInit {
   private qrCodeService = inject(QrCodeServiceService);
   private sanitizer = inject(DomSanitizer);
   private store = inject(Store);
-  private twoFaConfigurationDto: TwoFaConfigurationDto | null = null;
+  private twoFaConfigurationDto: TwoFactorConfigurationDto | null = null;
   private twoFaService = inject(TwoFaService);
   private toastr = inject(ToastrService);
 
@@ -54,7 +54,7 @@ export class AuthenticatorSetupComponent implements OnInit {
     }
   }
   onCodeVerified(code: string) {
-    const verifyTwoFaDto: VerifyTwoFaDto = {
+    const verifyTwoFaDto: VerifyTwoFactorConfigurationDto = {
       provider: this.twoFaConfigurationDto!.provider,
       key: code,
     };

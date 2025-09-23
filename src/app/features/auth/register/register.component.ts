@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RegisterValidator } from '../validators/register.validator';
+import { PasswordValidator } from '../validators/password.validator';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { isLoading } from '../../../core/state/loading-state';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
@@ -49,12 +49,12 @@ export class RegisterComponent {
         phoneNumber: ['', Validators.required],
         password: [
           '',
-          [Validators.required, RegisterValidator.strongPassword()],
+          [Validators.required, PasswordValidator.strongPassword()],
         ],
         confirmedPassword: ['', Validators.required],
       },
       {
-        validators: RegisterValidator.matchPasswords(
+        validators: PasswordValidator.matchPasswords(
           'password',
           'confirmedPassword'
         ),

@@ -3,8 +3,10 @@ import { inject, Injectable } from '@angular/core';
 import { RegisterDto } from '../../dtos/auth/register.dto';
 import { LoginDto } from '../../dtos/auth/login.dto';
 import { TokenService } from './token.service';
-import { map, Observable, tap } from 'rxjs';
+import { EMPTY, map, Observable, tap } from 'rxjs';
 import { ResetPasswordDto } from '../../dtos/auth/resetPassword.dto';
+import { LoginResponseDto } from '../../dtos/auth/loginResponse.dto';
+import { VerifyTwoFactorLoginDto } from '../../dtos/auth/verifyTwoFactorLogin.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +31,25 @@ export class AuthService {
       .pipe(map(() => void 0));
   }
 
-  login(loginDto: LoginDto): Observable<void> {
+  login(loginDto: LoginDto): Observable<LoginResponseDto> {
     return this.http
-      .post<{ token: string }>(`${this.apiUrl}/login`, loginDto, {
+      .post<LoginResponseDto>(`${this.apiUrl}/login`, loginDto, {
         withCredentials: true,
       })
+      .pipe(
+        tap((response) => {
+          if (!response.isTwoFactorRequired) {
+            this.tokenService.setAccessToken(response.accessToken.token);
+          }
+        })
+      );
+  }
+
+  // prettier-ignore
+  verifyTwoFactorLogin(verifyTwoFactorLoginDto: VerifyTwoFactorLoginDto): Observable<void> {
+    console.log(verifyTwoFactorLoginDto);
+    return this.http
+      .post<{token: string}>(`${this.apiUrl}/login-2fa`, verifyTwoFactorLoginDto, { withCredentials: true })
       .pipe(
         tap((response) => {
           this.tokenService.setAccessToken(response.token);

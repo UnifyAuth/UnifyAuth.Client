@@ -8,20 +8,19 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error) => {
-      let errorMessage = 'An unexpected error occurred';
-
+      let errorMessage = '';
       switch (error.status) {
         case 0:
           errorMessage =
             'Network error: Please check your internet connection. Or server may be down, please try again later.';
           break;
         case 400:
-          if (error.error.message) {
+          if (error.error.errors.length == 1) {
             errorMessage =
-              error.error?.message ||
+              error.error.errors[0] ||
               'Bad request: The server could not understand the request.';
-          } else if (error.error.messages) {
-            errorMessage = error.error.messages
+          } else {
+            errorMessage = error.error.errors
               .map((e: string) => `• ${e}`)
               .join('<br/>');
           }
@@ -34,8 +33,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             'Forbidden: You do not have permission to access this resource.';
           break;
         case 404:
-          if (error.error.message) {
-            errorMessage = error.error.message;
+          if (error.error.errors.length < 2) {
+            errorMessage = error.error.errors[0];
           } else {
             errorMessage =
               'Not found: The requested resource could not be found.';

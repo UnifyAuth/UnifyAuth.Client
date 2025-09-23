@@ -1,9 +1,11 @@
 <div class="mx-auto max-w-3xl p-8">
-  <app-two-fa-verify
-    *ngIf="isVerifying$ | async"
-    (codeVerified)="onCodeVerified($event)"
-  >
-  </app-two-fa-verify>
+  <div *ngIf="isVerifying$ | async">
+    <h1 class="text-center text-2xl font-semibold mb-4">
+      {{ verificationMessage }}
+    </h1>
+    <app-two-fa-verify (codeVerified)="onCodeVerified($event)">
+    </app-two-fa-verify>
+  </div>
   <div *ngIf="!(isVerifying$ | async) && (user$ | async) as user">
     <h2 class="text-2xl sm:text-3xl font-bold px-2 text-gray-800 mb-8">
       2-Step Verification

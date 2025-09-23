@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RegisterValidator } from '../validators/register.validator';
+import { PasswordValidator } from '../validators/password.validator';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -61,12 +61,12 @@ export class ResetPasswordComponent {
       {
         newPassword: [
           '',
-          [Validators.required, RegisterValidator.strongPassword()],
+          [Validators.required, PasswordValidator.strongPassword()],
         ],
         confirmedPassword: ['', Validators.required],
       },
       {
-        validators: RegisterValidator.matchPasswords(
+        validators: PasswordValidator.matchPasswords(
           'newPassword',
           'confirmedPassword'
         ),

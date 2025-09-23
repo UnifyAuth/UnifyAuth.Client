@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export class RegisterValidator {
+export class PasswordValidator {
   static strongPassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value: string = control.value || '';
