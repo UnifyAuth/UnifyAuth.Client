@@ -22,6 +22,9 @@ import {
 } from '../../../core/store/TwoFA/two-fa.actions';
 import { VerifyTwoFactorLoginDto } from '../../../core/dtos/auth/verifyTwoFactorLogin.dto';
 import { TwoFaVerifyComponent } from '../../../shared/components/TwoFaVerify/two-fa-verify/two-fa-verify.component';
+import { PopupService } from '../../../core/services/auth/popup.service';
+import { TokenService } from '../../../core/services/auth/token.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -38,8 +41,12 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
+  private tokenService = inject(TokenService);
+  private popupService = inject(PopupService);
   private store = inject(Store);
   private router = inject(Router);
+  private readonly allowedOrigin = window.location.origin;
+  private toastr = inject(ToastrService);
 
   loading = isLoading; // Computed property to track loading state for UI spinner
   LoginForm: FormGroup = this.createLoginForm();
@@ -105,6 +112,25 @@ export class LoginComponent {
         })
       )
       .subscribe();
+  }
+  async loginWithGoogle() {
+    try {
+      //prettier-ignore
+      const result = await this.popupService.loginWithGooglePopup(this.allowedOrigin);
+      if (!result.success) {
+        this.toastr.error(result.error || 'Google login failed');
+        return;
+      }
+      this.tokenService.setAccessToken(result.jwt!);
+      this.accountService.getUserProfile().subscribe({
+        next: (user) => {
+          this.store.dispatch(loginSuccess({ user }));
+          this.router.navigate(['/']);
+        },
+      });
+    } catch (error) {
+      console.error('Google login failed', error);
+    }
   }
   createLoginForm(): FormGroup {
     return this.fb.group({

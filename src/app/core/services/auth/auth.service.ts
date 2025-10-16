@@ -47,7 +47,6 @@ export class AuthService {
 
   // prettier-ignore
   verifyTwoFactorLogin(verifyTwoFactorLoginDto: VerifyTwoFactorLoginDto): Observable<void> {
-    console.log(verifyTwoFactorLoginDto);
     return this.http
       .post<{token: string}>(`${this.apiUrl}/login-2fa`, verifyTwoFactorLoginDto, { withCredentials: true })
       .pipe(

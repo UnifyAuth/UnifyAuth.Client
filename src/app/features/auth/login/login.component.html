@@ -22,11 +22,19 @@
       Login
     </h1>
     <!-- Login form -->
-    <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <form
+      [formGroup]="LoginForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-4"
+      autocomplete="on"
+    >
       <!-- Email-->
       <div>
         <input
-          type="text"
+          type="email"
+          name="email"
+          id="email"
+          autocomplete="username"
           formControlName="email"
           placeholder="Email"
           class="w-full px-4 py-3 bg-white/20 border-0 text-[#F3EFDF] placeholder-[#F3EFDF]/70 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
@@ -48,6 +56,9 @@
       <div>
         <input
           [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          id="password"
+          autocomplete="current-password"
           formControlName="password"
           placeholder="Password"
           class="w-full px-4 py-3 bg-white/20 border-0 text-[#F3EFDF] placeholder-[#F3EFDF]/70 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
@@ -88,6 +99,7 @@
         <button
           type="button"
           class="w-full cursor-pointer py-3 px-6 bg-gradient-to-r from-gray-900 via-black to-gray-900 hover:from-gray-800 hover:via-gray-900 hover:to-gray-800 text-white font-medium rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500/50 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 border border-gray-700/50"
+          (click)="loginWithGoogle()"
         >
           <svg
             class="w-5 h-5"

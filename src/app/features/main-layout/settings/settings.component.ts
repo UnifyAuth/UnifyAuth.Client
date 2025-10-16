@@ -23,6 +23,9 @@ export class SettingsComponent {
 
   constructor() {
     this.user$ = this.store.select(selectUser);
+    this.user$.subscribe((user) => {
+      console.log(user);
+    });
   }
 
   getProviderLabel(
