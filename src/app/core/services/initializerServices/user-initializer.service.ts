@@ -10,9 +10,12 @@ import { loginSuccess } from '../../store/auth/auth.actions';
 export class UserInitializerService {
   private accountService = inject(AccountService);
   private store = inject(Store);
+  private initPromise: Promise<void> | null = null;
 
   init(): Promise<void> {
-    return firstValueFrom(
+    if (this.initPromise) return this.initPromise;
+
+    this.initPromise = firstValueFrom(
       this.accountService.getUserProfile().pipe(
         tap((user) => {
           this.store.dispatch(loginSuccess({ user }));
@@ -20,5 +23,7 @@ export class UserInitializerService {
         catchError(() => of(null))
       )
     ).then(() => void 0);
+
+    return this.initPromise;
   }
 }

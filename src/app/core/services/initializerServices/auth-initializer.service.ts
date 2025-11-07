@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, firstValueFrom, map, of, switchMap, tap } from 'rxjs';
+import { catchError, firstValueFrom, map, of, switchMap } from 'rxjs';
 import { TokenService } from '../auth/token.service';
 
 @Injectable({

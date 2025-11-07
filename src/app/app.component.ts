@@ -1,18 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TokenService } from './core/services/auth/token.service';
-import { isLoading } from './core/state/loading-state';
-import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 import { CommonModule } from '@angular/common';
+import { CookiesOffComponent } from './shared/components/cookiesOff/cookies-off.component';
+import { isCookieOff } from './core/state/cookie-state';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SpinnerComponent, CommonModule],
-  template: '<app-spinner *ngIf="loading()"></app-spinner> <router-outlet />',
+  imports: [RouterOutlet, CommonModule, CookiesOffComponent],
+  // prettier-ignore
+  template: '<app-cookies-off *ngIf="cookieOff()"> </app-cookies-off> <router-outlet />',
 })
 export class AppComponent {
   title = 'UnifyAuth.Client';
 
-  // Use the readonly signal directly; call loading() in the template
-  loading = isLoading;
+  cookieOff = isCookieOff;
 }

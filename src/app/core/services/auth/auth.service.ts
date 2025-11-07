@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { RegisterDto } from '../../dtos/auth/register.dto';
 import { LoginDto } from '../../dtos/auth/login.dto';
 import { TokenService } from './token.service';
-import { EMPTY, map, Observable, tap } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ResetPasswordDto } from '../../dtos/auth/resetPassword.dto';
 import { LoginResponseDto } from '../../dtos/auth/loginResponse.dto';
 import { VerifyTwoFactorLoginDto } from '../../dtos/auth/verifyTwoFactorLogin.dto';
@@ -76,5 +76,23 @@ export class AuthService {
     return this.http
       .post<void>(`${this.apiUrl}/reset-password`, resetPasswordDto)
       .pipe(map(() => void 0));
+  }
+
+  detectCookies(): Observable<boolean> {
+    return this.http
+      .post(`${this.apiUrl}/cookie-test/set`, {}, { withCredentials: true })
+      .pipe(
+        switchMap(() =>
+          this.http.get<{ hasTestCookie: boolean }>(
+            `${this.apiUrl}/cookie-test/get`,
+            { withCredentials: true }
+          )
+        ),
+        map((res) => {
+          console.log('Cookie detection result:', res.hasTestCookie);
+          return !!res?.hasTestCookie;
+        }),
+        catchError(() => of(false))
+      );
   }
 }
